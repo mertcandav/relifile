@@ -18,7 +18,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-int main(int argc, char const *argv[]) {
+/**
+ * @fn main
+ * @brief Entry point
+ * @param argc Count of arguments
+ * @param argv Arguments
+ * @return Exit code
+*/
+int main(int argc, char const* argv[]) {
   return 0;
 }
 
