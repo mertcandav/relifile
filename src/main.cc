@@ -31,7 +31,8 @@
  */
 int main(int argc, char const* argv[]) {
   if (!utils::io::existFile("./relifile")) {
-    // fail
+    std::cout << "Relifile is not found!" << std::endl;
+    return 1;
   }
   return 0;
 }
