@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 
+#include <fstream>
+#include <iterator>
+#include <list>
+
 #ifdef _WIN32
 #include <direct.h>
 #else
@@ -14,6 +18,9 @@ class io {
   public:
   /** @brief Working directory */
   static char* _WORKING_DIR_;
+
+  static bool existFile(std::string path);
+  static std::list<std::string> getLinesOfFile(std::string path);
 };
 }  // namespace utils
 

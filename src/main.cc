@@ -29,4 +29,9 @@
  * @param argv Arguments
  * @return Exit code
  */
-int main(int argc, char const* argv[]) { return 0; }
+int main(int argc, char const* argv[]) {
+  if (!utils::io::existFile("./relifile")) {
+    // fail
+  }
+  return 0;
+}
