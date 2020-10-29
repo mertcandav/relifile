@@ -10,11 +10,11 @@
 #endif  // _WIN32
 
 namespace utils {
-  class io {
-    public:
-    /** @brief Working directory */
-    static char* _WORKING_DIR_;
-  };
-}
+class io {
+  public:
+  /** @brief Working directory */
+  static char* _WORKING_DIR_;
+};
+}  // namespace utils
 
-#endif // IO_HH
+#endif  // IO_HH
