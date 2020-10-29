@@ -8,6 +8,8 @@
 
 **Relifile is a command line handler that can be used in software compilation.**
 
+#### [LICENSE](https://github.com/mertcandav/relifile/blob/main/LICENSE)
 #### [CONTRIBUTE](https://github.com/mertcandav/relifile/blob/main/CONTRIBUTING.md)
+#### [CODE OF CONDUCT](https://github.com/mertcandav/relifile/blob/main/CODE_OF_CONDUCT.md)
 
 </div>
