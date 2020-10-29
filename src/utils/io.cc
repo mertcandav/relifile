@@ -12,7 +12,8 @@ bool utils::io::existFile(std::string path) {
 std::list<std::string> utils::io::getLinesOfFile(std::string path) {
   std::ifstream file(path);
   if (!file.good()) {
-    /* write exit processes in here at after time */
+    std::cout << "File is not found this path: " << path << std::endl;
+    exit(1);
   }
   std::list<std::string> lines;
   std::string line;
