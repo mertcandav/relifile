@@ -19,16 +19,26 @@
 # SOFTWARE.
 
 # VARIABLES
-GCC = gcc
-GCCH = $(GCC) -c
+G++ = g++
+G++H = $(G++) -c
 OUT = -o
 
 DIR_INCLUDE = ./include
 DIR_SOURCE = ./src
+DIR_UTILS = $(DIR_SOURCE)/utils
 
-# WORKS
-workflow: compile
+define UTILS
+io.o
+endef
 
+# WORKFLOW
+workflow: include compile
+include: $(UTILS)
+
+# INCLUDE
+# UTILS
+io.o: $(DIR_UTILS)/io.cc
+	$(G++H) $< $(OUT) io.o
 
 compile: $(DIR_SOURCE)/main.cc
-	$(GCC) $< $(OUT) reli
+	$(G++) $< $(UTILS) $(OUT) reli
