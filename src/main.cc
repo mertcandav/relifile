@@ -22,6 +22,7 @@
 
 #include "../include/parser/lexer.hh"
 #include "../include/utils/io.hh"
+#include "../include/utils/string.hh"
 
 void process(std::list<std::string> lines);
 
@@ -49,7 +50,8 @@ int main(int argc, char const* argv[]) {
  */
 void process(std::list<std::string> lines) {
   for (std::string line : lines) {
+    if (parser::lexer::isSkippableStatement(utils::string::trimStart(line)))
+      continue;
     line = parser::lexer::removeComments(line);
-    std::cout << line << std::endl;
   }
 }

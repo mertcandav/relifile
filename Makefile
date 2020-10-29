@@ -34,7 +34,8 @@ tokens.o
 endef
 
 define UTILS
-io.o
+io.o \
+string.o
 endef
 
 # WORKFLOW
@@ -52,6 +53,9 @@ tokens.o: $(DIR_PARSER)/tokens.cc
 # UTILS
 io.o: $(DIR_UTILS)/io.cc
 	$(G++H) $< $(OUT) io.o
+
+string.o: $(DIR_UTILS)/string.cc
+	$(G++H) $< $(OUT) string.o
 
 compile: $(DIR_SOURCE)/main.cc
 	$(G++) $< $(PARSER) $(UTILS) $(OUT) reli
