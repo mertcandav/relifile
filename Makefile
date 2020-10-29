@@ -29,6 +29,7 @@ DIR_PARSER = $(DIR_SOURCE)/parser
 DIR_UTILS = $(DIR_SOURCE)/utils
 
 define PARSER
+lexer.o \
 tokens.o
 endef
 
@@ -42,6 +43,9 @@ include: $(PARSER) $(UTILS)
 
 # INCLUDE
 # PARSER
+lexer.o: $(DIR_PARSER)/lexer.cc
+	$(G++H) $< $(OUT) lexer.o
+
 tokens.o: $(DIR_PARSER)/tokens.cc
 	$(G++H) $< $(OUT) tokens.o
 
@@ -50,4 +54,4 @@ io.o: $(DIR_UTILS)/io.cc
 	$(G++H) $< $(OUT) io.o
 
 compile: $(DIR_SOURCE)/main.cc
-	$(G++) $< $(UTILS) $(OUT) reli
+	$(G++) $< $(PARSER) $(UTILS) $(OUT) reli

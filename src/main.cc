@@ -20,7 +20,10 @@
 
 #include <iostream>
 
+#include "../include/parser/lexer.hh"
 #include "../include/utils/io.hh"
+
+void process(std::list<std::string> lines);
 
 /**
  * @fn main
@@ -34,5 +37,19 @@ int main(int argc, char const* argv[]) {
     std::cout << "Relifile is not found!" << std::endl;
     return 1;
   }
+  process(utils::io::getLinesOfFile("./relifile"));
   return 0;
+}
+
+/**
+ * @fn process
+ * @brief Process relifile
+ * @param lines Lines of file
+ * @return N/A
+ */
+void process(std::list<std::string> lines) {
+  for (std::string line : lines) {
+    line = parser::lexer::removeComments(line);
+    std::cout << line << std::endl;
+  }
 }

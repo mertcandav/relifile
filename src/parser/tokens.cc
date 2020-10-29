@@ -10,3 +10,4 @@ std::string parser::tokens::varConcatOperator = ":=";
 std::string parser::tokens::varCallOperator = "$";
 std::string parser::tokens::workflowDefine = "workflow";
 std::string parser::tokens::workDefine = "work";
+std::string parser::tokens::escapeSequenceOperator = "\\";

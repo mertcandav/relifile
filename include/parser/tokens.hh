@@ -16,6 +16,7 @@ class tokens {
   static std::string varCallOperator;
   static std::string workflowDefine;
   static std::string workDefine;
+  static std::string escapeSequenceOperator;
 };
 }  // namespace parser
 
