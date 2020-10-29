@@ -25,7 +25,12 @@ OUT = -o
 
 DIR_INCLUDE = ./include
 DIR_SOURCE = ./src
+DIR_PARSER = $(DIR_SOURCE)/parser
 DIR_UTILS = $(DIR_SOURCE)/utils
+
+define PARSER
+tokens.o
+endef
 
 define UTILS
 io.o
@@ -33,9 +38,13 @@ endef
 
 # WORKFLOW
 workflow: include compile
-include: $(UTILS)
+include: $(PARSER) $(UTILS)
 
 # INCLUDE
+# PARSER
+tokens.o: $(DIR_PARSER)/tokens.cc
+	$(G++H) $< $(OUT) tokens.o
+
 # UTILS
 io.o: $(DIR_UTILS)/io.cc
 	$(G++H) $< $(OUT) io.o
