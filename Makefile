@@ -33,6 +33,7 @@ processor.o
 endef
 
 define PARSER
+grammar.o \
 lexer.o \
 tokens.o
 endef
@@ -51,6 +52,9 @@ processor.o: $(DIR_SOURCE)/processor.cc
 	$(G++H) $< $(OUT) processor.o
 
 # PARSER
+grammar.o: $(DIR_PARSER)/grammar.cc
+	$(G++H) $< $(OUT) grammar.o
+
 lexer.o: $(DIR_PARSER)/lexer.cc
 	$(G++H) $< $(OUT) lexer.o
 
