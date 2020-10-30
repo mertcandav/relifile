@@ -28,6 +28,10 @@ DIR_SOURCE = ./src
 DIR_PARSER = $(DIR_SOURCE)/parser
 DIR_UTILS = $(DIR_SOURCE)/utils
 
+define GENERIC
+processor.o
+endef
+
 define PARSER
 lexer.o \
 tokens.o
@@ -40,9 +44,12 @@ endef
 
 # WORKFLOW
 workflow: include compile
-include: $(PARSER) $(UTILS)
+include: $(GENERIC) $(PARSER) $(UTILS)
 
 # INCLUDE
+processor.o: $(DIR_SOURCE)/processor.cc
+	$(G++H) $< $(OUT) processor.o
+
 # PARSER
 lexer.o: $(DIR_PARSER)/lexer.cc
 	$(G++H) $< $(OUT) lexer.o
@@ -58,4 +65,4 @@ string.o: $(DIR_UTILS)/string.cc
 	$(G++H) $< $(OUT) string.o
 
 compile: $(DIR_SOURCE)/main.cc
-	$(G++) $< $(PARSER) $(UTILS) $(OUT) reli
+	$(G++) $< $(GENERIC) $(PARSER) $(UTILS) $(OUT) reli

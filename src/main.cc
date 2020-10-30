@@ -21,8 +21,10 @@
 #include <iostream>
 
 #include "../include/parser/lexer.hh"
+#include "../include/processor.hh"
 #include "../include/utils/io.hh"
-#include "../include/utils/string.hh"
+#include "../include/variable.hh"
+#include "../include/work.hh"
 
 void process(std::list<std::string> lines);
 
@@ -49,9 +51,17 @@ int main(int argc, char const* argv[]) {
  * @return N/A
  */
 void process(std::list<std::string> lines) {
+  std::list<variable> variables;
   for (std::string line : lines) {
+    line = parser::lexer::removeComments(line);
     if (parser::lexer::isSkippableStatement(utils::string::trimStart(line)))
       continue;
-    line = parser::lexer::removeComments(line);
+
+    if (processor::processVariable(&variables, line))
+      continue;
+    else {
+      std::cout << "What is this?" << std::endl;
+      exit(1);
+    }
   }
 }
