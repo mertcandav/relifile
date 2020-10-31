@@ -11,6 +11,25 @@ bool parser::lexer::isVariableStatement(std::string statement) {
 std::string parser::lexer::removeComments(std::string statement) {
   for (int index = 0; index < statement.length(); ++index) {
     std::string ch = statement.substr(index, 1);
+    if (ch == parser::tokens::escapeSequenceOperator) {
+      if (index == statement.length() - 1 ||
+          statement.substr(index + 1, 1) == " ") {
+        std::cout << "Escape sequence is cannot use alone!" << std::endl;
+        exit(1);
+      }
+      if (statement.substr(index + 1, 1) ==
+          parser::tokens::escapeSequenceOperator) {
+        delete &ch;
+        ++index;
+        continue;
+      } else if (statement.substr(index + 1, 1) ==
+                 parser::tokens::inlineComment) {
+        delete &ch;
+        ++index;
+        continue;
+      }
+    }
+
     if (ch != parser::tokens::inlineComment) {
       delete &ch;
       continue;
