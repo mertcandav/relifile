@@ -18,9 +18,6 @@ std::string parser::lexer::removeComments(std::string statement) {
     delete &ch;
     if (index == 0)
       return "";
-    if (statement.substr(index - 1, 1) ==
-        parser::tokens::escapeSequenceOperator)
-      continue;
     return statement.substr(0, index);
   }
   return statement;
