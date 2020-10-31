@@ -13,6 +13,7 @@ class processor {
   public:
   static bool processVariable(std::list<variable>* variables,
                               std::string statement);
+  static std::string processSequence(std::string value);
 };
 
 #endif  // PROCESSOR_HH

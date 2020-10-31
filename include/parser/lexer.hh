@@ -4,11 +4,14 @@
 #include <iostream>
 #include <list>
 
+#include "../processor.hh"
 #include "tokens.hh"
 
 namespace parser {
 class lexer {
   public:
+  static std::string failProcess;
+
   static bool isSkippableStatement(std::string statement);
   static bool isVariableStatement(std::string statement);
   static std::string removeComments(std::string statement);

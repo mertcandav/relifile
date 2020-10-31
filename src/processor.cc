@@ -16,3 +16,12 @@ bool processor::processVariable(std::list<variable>* variables,
   variables->push_back(var);
   return true;
 }
+
+std::string processor::processSequence(std::string value) {
+  if (value.substr(1, 1) == parser::tokens::escapeSequenceOperator)
+    return parser::tokens::escapeSequenceOperator;
+  else if (value.substr(1, 1) == parser::tokens::inlineComment)
+    return parser::tokens::inlineComment;
+  else
+    return parser::lexer::failProcess;
+}

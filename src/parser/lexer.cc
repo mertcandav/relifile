@@ -1,5 +1,7 @@
 #include "../../include/parser/lexer.hh"
 
+std::string parser::lexer::failProcess = "_ERROR_";
+
 bool parser::lexer::isSkippableStatement(std::string statement) {
   return statement == "";
 }
@@ -17,19 +19,12 @@ std::string parser::lexer::removeComments(std::string statement) {
         std::cout << "Escape sequence is cannot use alone!" << std::endl;
         exit(1);
       }
-      if (statement.substr(index + 1, 1) ==
-          parser::tokens::escapeSequenceOperator) {
-        delete &ch;
-        ++index;
-        continue;
-      } else if (statement.substr(index + 1, 1) ==
-                 parser::tokens::inlineComment) {
+      if (processor::processSequence(statement.substr(index)) != failProcess) {
         delete &ch;
         ++index;
         continue;
       }
     }
-
     if (ch != parser::tokens::inlineComment) {
       delete &ch;
       continue;

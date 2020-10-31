@@ -60,7 +60,8 @@ void process(std::list<std::string> lines) {
     if (processor::processVariable(&variables, line))
       continue;
     else {
-      std::cout << "What is this?" << std::endl;
+      std::cout << "What is this?" << std::endl
+                << "Statement:" << line << std::endl;
       exit(1);
     }
   }
