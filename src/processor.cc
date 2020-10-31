@@ -22,6 +22,8 @@ std::string processor::processSequence(std::string value) {
     return parser::tokens::escapeSequenceOperator;
   else if (value.substr(1, 1) == parser::tokens::inlineComment)
     return parser::tokens::inlineComment;
+  else if (value.substr(1, 1) == parser::tokens::varCallOperator)
+    return parser::tokens::varCallOperator;
   else
     return parser::lexer::failProcess;
 }
