@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "tokens.hh"
+
 namespace parser {
 class grammar {
   public:
