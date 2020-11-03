@@ -16,6 +16,7 @@ class lexer {
   static bool isVariableStatement(std::string statement);
   static std::string removeComments(std::string statement);
   static std::list<std::string> lexVariable(std::string statement);
+  static std::string getVariableNameFromStatement(std::string statement);
 };
 }  // namespace parser
 

@@ -20,6 +20,7 @@
 
 # VARIABLES
 $G++ =g++
+$G++H =$G++ -c
 $OUT =-o
 
 $DIR_INCLUDE =./include

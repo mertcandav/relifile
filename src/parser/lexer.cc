@@ -13,17 +13,10 @@ bool parser::lexer::isVariableStatement(std::string statement) {
 std::string parser::lexer::removeComments(std::string statement) {
   for (int index = 0; index < statement.length(); ++index) {
     std::string ch = statement.substr(index, 1);
-    if (ch == parser::tokens::escapeSequenceOperator) {
-      if (index == statement.length() - 1 ||
-          statement.substr(index + 1, 1) == " ") {
-        std::cout << "Escape sequence is cannot use alone!" << std::endl;
-        exit(1);
-      }
-      if (processor::processSequence(statement.substr(index)) != failProcess) {
-        delete &ch;
-        ++index;
-        continue;
-      }
+    if (processor::processSequence(statement.substr(index)) != failProcess) {
+      delete &ch;
+      ++index;
+      continue;
     }
     if (ch != parser::tokens::inlineComment) {
       delete &ch;
@@ -45,4 +38,14 @@ std::list<std::string> parser::lexer::lexVariable(std::string statement) {
   parts.push_back(index != std::string::npos ? statement.substr(index + 1)
                                              : "");
   return parts;
+}
+
+std::string parser::lexer::getVariableNameFromStatement(std::string statement) {
+  if (statement.substr(0, 1) != parser::tokens::varCallOperator)
+    return lexer::failProcess;
+  std::size_t index = statement.find(" ");
+  std::string name = index != std::string::npos ? statement.substr(1, index - 1)
+                                                : statement.substr(1);
+  index = name.find(parser::tokens::varCallOperator);
+  return index != std::string::npos ? name.substr(0, index) : name;
 }
