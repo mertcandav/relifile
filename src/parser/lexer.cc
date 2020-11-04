@@ -10,6 +10,11 @@ bool parser::lexer::isVariableStatement(std::string statement) {
   return statement.substr(0, 1) == parser::tokens::varCallOperator;
 }
 
+bool parser::lexer::isWorkflowStatement(std::string statement) {
+  return statement.substr(0, parser::tokens::workflowDefine.length()) ==
+         parser::tokens::workflowDefine;
+}
+
 std::string parser::lexer::removeComments(std::string statement) {
   for (int index = 0; index < statement.length(); ++index) {
     std::string ch = statement.substr(index, 1);

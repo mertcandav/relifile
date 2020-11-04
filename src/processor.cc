@@ -63,3 +63,27 @@ std::string processor::processValue(std::list<variable>* variables,
   }
   return val;
 }
+
+int processor::processWorkflow(int index, std::list<std::string>* lines,
+                               std::list<variable>* variables) {
+  int iindex = -1;
+  for (std::string line : *lines) {
+    ++iindex;
+    if (iindex < index)
+      continue;
+    if (iindex == index) {
+      if (utils::string::trim(line) != parser::tokens::workflowDefine) {
+        std::cout << "Workflow define line is must are alone!" << std::endl;
+        exit(1);
+      }
+      continue;
+    }
+    if (utils::string::trimStart(line) == "")
+      break;
+    line = parser::lexer::removeComments(line);
+    if (parser::lexer::isSkippableStatement(utils::string::trimStart(line)))
+      continue;
+    line = processor::processValue(variables, line);
+  }
+  return iindex - index;
+}

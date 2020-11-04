@@ -25,3 +25,6 @@ $OUT =-o
 
 $DIR_INCLUDE =./include
 $DIR_SOURCE =./src
+
+workflow
+  test
