@@ -1,6 +1,6 @@
 #include "../include/processor.hh"
 
-bool processor::processVariable(std::list<variable>* variables,
+bool processor::processVariable(std::vector<variable>* variables,
                                 std::string statement) {
   if (!parser::lexer::isVariableStatement(statement))
     return false;
@@ -10,6 +10,17 @@ bool processor::processVariable(std::list<variable>* variables,
   if (!parser::grammar::isValidVariableName(var.name)) {
     std::cout << "Variable name is not valid!" << std::endl;
     exit(1);
+  }
+  std::vector<variable>::iterator it = variables->begin();
+  for (variable vvar : *variables) {
+    if (vvar.name == var.name) {
+      var.value = processValue(variables, parts.back());
+      variables->erase(it);
+      variables->insert(it, var);
+      delete &parts;
+      return true;
+    }
+    ++it;
   }
   var.value = processValue(variables, parts.back());
   delete &parts;
@@ -34,7 +45,7 @@ std::string processor::processSequence(std::string value) {
     return parser::lexer::failProcess;
 }
 
-std::string processor::processValue(std::list<variable>* variables,
+std::string processor::processValue(std::vector<variable>* variables,
                                     std::string value) {
   std::string val;
   for (int index = 0; index < value.length(); ++index) {
@@ -64,9 +75,9 @@ std::string processor::processValue(std::list<variable>* variables,
   return val;
 }
 
-int processor::processWorkflow(int index, std::list<std::string>* lines,
-                               std::list<variable>* variables,
-                               std::list<workflow>* workflows) {
+int processor::processWorkflow(int index, std::vector<std::string>* lines,
+                               std::vector<variable>* variables,
+                               std::vector<workflow>* workflows) {
   int iindex = -1;
   for (std::string line : *lines) {
     ++iindex;

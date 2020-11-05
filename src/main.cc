@@ -26,7 +26,7 @@
 #include "../include/variable.hh"
 #include "../include/work.hh"
 
-void process(std::list<std::string> lines);
+void process(std::vector<std::string> lines);
 
 /**
  * @fn main
@@ -50,9 +50,9 @@ int main(int argc, char const* argv[]) {
  * @param lines Lines of file
  * @return N/A
  */
-void process(std::list<std::string> lines) {
-  std::list<variable> variables;
-  std::list<workflow> workflows;
+void process(std::vector<std::string> lines) {
+  std::vector<variable> variables;
+  std::vector<workflow> workflows;
   int index = -1, skipping = 0;
   for (std::string line : lines) {
     ++index;

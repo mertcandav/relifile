@@ -7,6 +7,7 @@
 #include <iostream>
 #include <iterator>
 #include <list>
+#include <vector>
 
 #ifdef _WIN32
 #include <direct.h>
@@ -21,7 +22,7 @@ class io {
   static char* _WORKING_DIR_;
 
   static bool existFile(std::string path);
-  static std::list<std::string> getLinesOfFile(std::string path);
+  static std::vector<std::string> getLinesOfFile(std::string path);
 };
 }  // namespace utils
 

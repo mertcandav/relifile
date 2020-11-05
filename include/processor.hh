@@ -1,8 +1,10 @@
 #ifndef PROCESSOR_HH
 #define PROCESSOR_HH
 
+#include <algorithm>
 #include <iostream>
 #include <list>
+#include <vector>
 
 #include "parser/grammar.hh"
 #include "parser/lexer.hh"
@@ -12,14 +14,14 @@
 
 class processor {
   public:
-  static bool processVariable(std::list<variable>* variables,
+  static bool processVariable(std::vector<variable>* variables,
                               std::string statement);
   static std::string processSequence(std::string value);
-  static std::string processValue(std::list<variable>* variables,
+  static std::string processValue(std::vector<variable>* variables,
                                   std::string value);
-  static int processWorkflow(int index, std::list<std::string>* lines,
-                             std::list<variable>* variables,
-                             std::list<workflow>* workflows);
+  static int processWorkflow(int index, std::vector<std::string>* lines,
+                             std::vector<variable>* variables,
+                             std::vector<workflow>* workflows);
 };
 
 #endif  // PROCESSOR_HH

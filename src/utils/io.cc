@@ -9,13 +9,13 @@ bool utils::io::existFile(std::string path) {
   return state;
 }
 
-std::list<std::string> utils::io::getLinesOfFile(std::string path) {
+std::vector<std::string> utils::io::getLinesOfFile(std::string path) {
   std::ifstream file(path);
   if (!file.good()) {
     std::cout << "File is not found this path: " << path << std::endl;
     exit(1);
   }
-  std::list<std::string> lines;
+  std::vector<std::string> lines;
   std::string line;
   while (std::getline(file, line)) lines.push_back(line);
   delete &file;
