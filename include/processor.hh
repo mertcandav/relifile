@@ -8,6 +8,7 @@
 #include "parser/lexer.hh"
 #include "utils/string.hh"
 #include "variable.hh"
+#include "workflow.hh"
 
 class processor {
   public:
@@ -17,7 +18,8 @@ class processor {
   static std::string processValue(std::list<variable>* variables,
                                   std::string value);
   static int processWorkflow(int index, std::list<std::string>* lines,
-                             std::list<variable>* variables);
+                             std::list<variable>* variables,
+                             std::list<workflow>* workflows);
 };
 
 #endif  // PROCESSOR_HH

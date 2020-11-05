@@ -52,10 +52,11 @@ int main(int argc, char const* argv[]) {
  */
 void process(std::list<std::string> lines) {
   std::list<variable> variables;
+  std::list<workflow> workflows;
   int index = -1, skipping = 0;
   for (std::string line : lines) {
     ++index;
-    if (skipping != 0) {
+    if (skipping > 0) {
       --skipping;
       continue;
     }
@@ -66,7 +67,8 @@ void process(std::list<std::string> lines) {
     if (processor::processVariable(&variables, line))
       continue;
     else if (parser::lexer::isWorkflowStatement(line)) {
-      skipping += processor::processWorkflow(index, &lines, &variables);
+      skipping +=
+          processor::processWorkflow(index, &lines, &variables, &workflows);
       continue;
     } else {
       std::cout << "What is this?" << std::endl

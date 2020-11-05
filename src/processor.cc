@@ -65,7 +65,8 @@ std::string processor::processValue(std::list<variable>* variables,
 }
 
 int processor::processWorkflow(int index, std::list<std::string>* lines,
-                               std::list<variable>* variables) {
+                               std::list<variable>* variables,
+                               std::list<workflow>* workflows) {
   int iindex = -1;
   for (std::string line : *lines) {
     ++iindex;
@@ -83,7 +84,10 @@ int processor::processWorkflow(int index, std::list<std::string>* lines,
     line = parser::lexer::removeComments(line);
     if (parser::lexer::isSkippableStatement(utils::string::trimStart(line)))
       continue;
-    line = processor::processValue(variables, line);
+    workflow wf;
+    wf.works.push_back(
+        utils::string::trim(processor::processValue(variables, line)));
+    workflows->push_back(wf);
   }
   return iindex - index;
 }
