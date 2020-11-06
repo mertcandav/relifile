@@ -7,7 +7,7 @@ bool parser::lexer::isSkippableStatement(std::string statement) {
 }
 
 bool parser::lexer::isVariableStatement(std::string statement) {
-  return statement.substr(0, 1) == parser::tokens::varCallOperator;
+  return statement.substr(0, 1) == parser::tokens::DOLLAR;
 }
 
 bool parser::lexer::isWorkflowStatement(std::string statement) {
@@ -22,7 +22,7 @@ std::string parser::lexer::removeComments(std::string statement) {
       ++index;
       continue;
     }
-    if (ch != parser::tokens::inlineComment)
+    if (ch != parser::tokens::INLINECOMMENT)
       continue;
     if (index == 0)
       return "";
@@ -33,7 +33,7 @@ std::string parser::lexer::removeComments(std::string statement) {
 
 std::vector<std::string> parser::lexer::lexVariable(std::string statement) {
   std::vector<std::string> parts;
-  std::size_t index = statement.find(parser::tokens::varDefOperator);
+  std::size_t index = statement.find(parser::tokens::EQUAL);
   parts.push_back(index != std::string::npos ? statement.substr(1, index - 1)
                                              : statement.substr(1));
   parts.push_back(index != std::string::npos ? statement.substr(index + 1)
@@ -42,11 +42,11 @@ std::vector<std::string> parser::lexer::lexVariable(std::string statement) {
 }
 
 std::string parser::lexer::getVariableNameFromStatement(std::string statement) {
-  if (statement.substr(0, 1) != parser::tokens::varCallOperator)
+  if (statement.substr(0, 1) != parser::tokens::DOLLAR)
     return lexer::failProcess;
   std::size_t index = statement.find(" ");
   std::string name = index != std::string::npos ? statement.substr(1, index - 1)
                                                 : statement.substr(1);
-  index = name.find(parser::tokens::varCallOperator);
+  index = name.find(parser::tokens::DOLLAR);
   return index != std::string::npos ? name.substr(0, index) : name;
 }

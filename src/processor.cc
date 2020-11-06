@@ -27,18 +27,18 @@ bool processor::processVariable(std::vector<variable>* variables,
 }
 
 std::string processor::processSequence(std::string value) {
-  if (value.substr(0, 1) != parser::tokens::escapeSequenceOperator)
+  if (value.substr(0, 1) != parser::tokens::ESCAPESEQUENCE)
     return parser::lexer::failProcess;
 
   if (value.substr(1, 1) == " ") {
     std::cout << "Escape sequence is cannot use alone!" << std::endl;
     exit(1);
-  } else if (value.substr(1, 1) == parser::tokens::escapeSequenceOperator)
-    return parser::tokens::escapeSequenceOperator;
-  else if (value.substr(1, 1) == parser::tokens::inlineComment)
-    return parser::tokens::inlineComment;
-  else if (value.substr(1, 1) == parser::tokens::varCallOperator)
-    return parser::tokens::varCallOperator;
+  } else if (value.substr(1, 1) == parser::tokens::ESCAPESEQUENCE)
+    return parser::tokens::ESCAPESEQUENCE;
+  else if (value.substr(1, 1) == parser::tokens::INLINECOMMENT)
+    return parser::tokens::INLINECOMMENT;
+  else if (value.substr(1, 1) == parser::tokens::DOLLAR)
+    return parser::tokens::DOLLAR;
   else
     return parser::lexer::failProcess;
 }
