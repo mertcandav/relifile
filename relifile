@@ -19,12 +19,12 @@
 # SOFTWARE.
 
 # VARIABLES
-$G++ =g++
-$G++H =$G++ -c
-$OUT =-o
+$G++ = g++
+$G++H = $G++ -c
+$OUT = -o
 
-$DIR_INCLUDE =./include
-$DIR_SOURCE =./src
+$DIR_INCLUDE = ./include
+$DIR_SOURCE = ./src
 
 workflow
-  test
+| test
