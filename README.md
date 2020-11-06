@@ -2,6 +2,7 @@
   
 # RELIFILE
 
+![CodeQL](https://github.com/mertcandav/relifile/workflows/CodeQL/badge.svg)
 ![Darwin CI](https://github.com/mertcandav/relifile/workflows/Darwin%20CI/badge.svg)
 ![Ubuntu CI](https://github.com/mertcandav/relifile/workflows/Ubuntu%20CI/badge.svg)
 ![WindownNT CI](https://github.com/mertcandav/relifile/workflows/WindownNT%20CI/badge.svg)
