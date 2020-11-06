@@ -63,8 +63,7 @@ void process(std::vector<std::string> lines) {
     line = parser::lexer::removeComments(line);
     if (parser::lexer::isSkippableStatement(utils::string::trimStart(line)))
       continue;
-
-    if (processor::processVariable(&variables, line))
+    else if (processor::processVariable(&variables, line))
       continue;
     else if (parser::lexer::isWorkflowStatement(line)) {
       skipping +=

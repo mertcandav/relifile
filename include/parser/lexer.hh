@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <list>
+#include <vector>
 
 #include "../processor.hh"
 #include "tokens.hh"
@@ -16,7 +17,7 @@ class lexer {
   static bool isVariableStatement(std::string statement);
   static bool isWorkflowStatement(std::string statement);
   static std::string removeComments(std::string statement);
-  static std::list<std::string> lexVariable(std::string statement);
+  static std::vector<std::string> lexVariable(std::string statement);
   static std::string getVariableNameFromStatement(std::string statement);
 };
 }  // namespace parser

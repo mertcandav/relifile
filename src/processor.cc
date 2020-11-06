@@ -5,7 +5,7 @@ bool processor::processVariable(std::vector<variable>* variables,
   if (!parser::lexer::isVariableStatement(statement))
     return false;
   variable var;
-  std::list<std::string> parts = parser::lexer::lexVariable(statement);
+  std::vector<std::string> parts = parser::lexer::lexVariable(statement);
   var.name = utils::string::trim(parts.front());
   if (!parser::grammar::isValidVariableName(var.name)) {
     std::cout << "Variable name is not valid!" << std::endl;
@@ -17,13 +17,11 @@ bool processor::processVariable(std::vector<variable>* variables,
       var.value = processValue(variables, parts.back());
       variables->erase(it);
       variables->insert(it, var);
-      delete &parts;
       return true;
     }
     ++it;
   }
   var.value = processValue(variables, parts.back());
-  delete &parts;
   variables->push_back(var);
   return true;
 }
