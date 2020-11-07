@@ -88,9 +88,9 @@ int processor::processWorkflow(int index, std::vector<std::string>* lines,
       }
       continue;
     }
+    line = parser::lexer::removeComments(line);
     if (utils::string::trimStart(line) == "")
       break;
-    line = parser::lexer::removeComments(line);
     if (parser::lexer::isSkippableStatement(utils::string::trimStart(line)))
       continue;
     workflow wf;
