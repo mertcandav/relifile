@@ -8,6 +8,7 @@
 
 #include "parser/grammar.hh"
 #include "parser/lexer.hh"
+#include "parser/literal.hh"
 #include "utils/string.hh"
 #include "variable.hh"
 #include "workflow.hh"

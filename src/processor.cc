@@ -39,6 +39,8 @@ std::string processor::processSequence(std::string value) {
     return parser::tokens::INLINECOMMENT;
   else if (value.substr(1, 1) == parser::tokens::DOLLAR)
     return parser::tokens::DOLLAR;
+  else if (value.substr(1, 1) == parser::tokens::VBAR)
+    return parser::tokens::VBAR;
   else
     return parser::lexer::failProcess;
 }
@@ -76,9 +78,14 @@ std::string processor::processValue(std::vector<variable>* variables,
 int processor::processWorkflow(int index, std::vector<std::string>* lines,
                                std::vector<variable>* variables,
                                std::vector<workflow>* workflows) {
-  int iindex = -1;
+  workflow wf;
+  int iindex = -1, skipping = 0;
   for (std::string line : *lines) {
     ++iindex;
+    if (skipping > 0) {
+      --skipping;
+      continue;
+    }
     if (iindex < index)
       continue;
     if (iindex == index) {
@@ -88,15 +95,15 @@ int processor::processWorkflow(int index, std::vector<std::string>* lines,
       }
       continue;
     }
-    line = parser::lexer::removeComments(line);
-    if (utils::string::trimStart(line) == "")
+    line = utils::string::trimStart(parser::lexer::removeComments(line));
+    if (line == "")
       break;
-    if (parser::lexer::isSkippableStatement(utils::string::trimStart(line)))
-      continue;
-    workflow wf;
-    wf.works.push_back(
-        utils::string::trim(processor::processValue(variables, line)));
-    workflows->push_back(wf);
+    else if (parser::lexer::isSkippableStatement(line))
+      break;
+    parser::literal lit = parser::lexer::getLiteral(iindex, lines, variables);
+    skipping = lit.line > 1 ? lit.line - 1 : skipping;
+    wf.works.push_back(utils::string::trim(lit.value));
   }
+  workflows->push_back(wf);
   return iindex - index;
 }

@@ -50,3 +50,32 @@ std::string parser::lexer::getVariableNameFromStatement(std::string statement) {
   index = name.find(parser::tokens::DOLLAR);
   return index != std::string::npos ? name.substr(0, index) : name;
 }
+
+parser::literal parser::lexer::getLiteral(int index,
+                                          std::vector<std::string>* lines,
+                                          std::vector<variable>* variables) {
+  literal lit{"", 0};
+  int iindex = -1;
+  for (std::string line : *lines) {
+    ++iindex;
+    if (iindex < index)
+      continue;
+    line = utils::string::trimStart(parser::lexer::removeComments(line));
+    if (line == "" ||
+        (iindex != index && line.substr(0, 1) == parser::tokens::VBAR))
+      break;
+    else if (parser::lexer::isSkippableStatement(line))
+      break;
+    ++lit.line;
+    if (iindex == index) {
+      if (line.substr(0, 1) != parser::tokens::VBAR) {
+        std::cout << "Literal origin not defined!" << std::endl;
+        exit(1);
+      }
+      lit.value += processor::processValue(variables, line.substr(1));
+      continue;
+    }
+    lit.value += processor::processValue(variables, line);
+  }
+  return lit;
+}
