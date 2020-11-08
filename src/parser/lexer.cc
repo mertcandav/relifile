@@ -54,7 +54,8 @@ std::string parser::lexer::getVariableNameFromStatement(std::string statement) {
 parser::literal parser::lexer::getLiteral(int index,
                                           std::vector<std::string>* lines,
                                           std::vector<variable>* variables) {
-  literal lit{"", 0};
+  literal lit;
+  lit.line = 0;
   int iindex = -1;
   for (std::string line : *lines) {
     ++iindex;
