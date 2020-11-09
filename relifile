@@ -19,8 +19,8 @@
 # SOFTWARE.
 
 # VARIABLES
-$G++ = g++
-$G++H = $G++ -c
+$GPP = g++
+$GPPH = $GPP -c
 $OUT = -o
 
 $DIR_INCLUDE = ./include
