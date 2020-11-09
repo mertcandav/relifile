@@ -25,6 +25,8 @@ $OUT = -o
 
 $DIR_INCLUDE = ./include
 $DIR_SOURCE = ./src
+$DIR_PARSER = $DIR_SOURCE/parser
+$DIR_UTILS = $DIR_SOURCE/utils
 
 workflow
 | test

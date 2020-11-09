@@ -15,6 +15,37 @@ bool parser::lexer::isWorkflowStatement(std::string statement) {
          parser::tokens::workflowDefine;
 }
 
+std::size_t parser::lexer::findVariableLimit(std::string statement) {
+  std::size_t res = statement.find(" ");
+  res = res == std::string::npos
+            ? statement.find(parser::tokens::ESCAPESEQUENCE)
+            : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::LPAR) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::LPAR) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::DOLLAR) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::SLASH) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::COMMA) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::AT) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::AMPER) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::SEMICOLON)
+                                 : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::TILDE) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::STAR) : res;
+  res =
+      res == std::string::npos ? statement.find(parser::tokens::PERCENT) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::EQUAL) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::PLUS) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::MINUS) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::VBAR) : res;
+  res =
+      res == std::string::npos ? statement.find(parser::tokens::GREATER) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::LESS) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::COLON) : res;
+  res = res == std::string::npos ? statement.find(parser::tokens::CIRCUMFLEX)
+                                 : res;
+  return res;
+}
+
 std::string parser::lexer::removeComments(std::string statement) {
   for (int index = 0; index < statement.length(); ++index) {
     std::string ch = statement.substr(index, 1);
@@ -44,11 +75,9 @@ std::vector<std::string> parser::lexer::lexVariable(std::string statement) {
 std::string parser::lexer::getVariableNameFromStatement(std::string statement) {
   if (statement.substr(0, 1) != parser::tokens::DOLLAR)
     return lexer::failProcess;
-  std::size_t index = statement.find(" ");
-  std::string name = index != std::string::npos ? statement.substr(1, index - 1)
-                                                : statement.substr(1);
-  index = name.find(parser::tokens::DOLLAR);
-  return index != std::string::npos ? name.substr(0, index) : name;
+  std::size_t pos = parser::lexer::findVariableLimit(statement.substr(1));
+  return pos != std::string::npos ? statement.substr(1, pos)
+                                  : statement.substr(1);
 }
 
 parser::literal parser::lexer::getLiteral(int index,

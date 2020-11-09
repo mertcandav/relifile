@@ -14,14 +14,16 @@ bool processor::processVariable(std::vector<variable>* variables,
   std::vector<variable>::iterator it = variables->begin();
   for (variable vvar : *variables) {
     if (vvar.name == var.name) {
-      var.value = utils::string::trim((variables, parts.back()));
+      var.value =
+          utils::string::trim(processor::processValue(variables, parts.back()));
       variables->erase(it);
       variables->insert(it, var);
       return true;
     }
     ++it;
   }
-  var.value = utils::string::trim((variables, parts.back()));
+  var.value =
+      utils::string::trim(processor::processValue(variables, parts.back()));
   variables->push_back(var);
   return true;
 }

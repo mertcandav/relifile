@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include "lexer.hh"
 #include "tokens.hh"
 
 namespace parser {
