@@ -77,35 +77,26 @@ std::string processor::processValue(std::vector<variable>* variables,
   return val;
 }
 
-int processor::processWorkflow(int index, std::vector<std::string>* lines,
-                               std::vector<variable>* variables,
-                               std::vector<workflow>* workflows) {
+bool processor::processWorkflow(std::vector<std::string>::iterator* it,
+                                std::vector<std::string>* lines,
+                                std::vector<variable>* variables,
+                                std::vector<workflow>* workflows) {
+  if (utils::string::trim(**it) != parser::tokens::workflowDefine) {
+    std::cout << "Workflow define line is must are alone!" << std::endl;
+    exit(1);
+  }
+  ++*it;
   workflow wf;
-  int iindex = -1, skipping = 0;
-  for (std::string line : *lines) {
-    ++iindex;
-    if (skipping > 0) {
-      --skipping;
-      continue;
-    }
-    if (iindex < index)
-      continue;
-    if (iindex == index) {
-      if (utils::string::trim(line) != parser::tokens::workflowDefine) {
-        std::cout << "Workflow define line is must are alone!" << std::endl;
-        exit(1);
-      }
-      continue;
-    }
+  for (; *it < lines->end(); ++*it) {
+    std::string line = **it;
     line = utils::string::trimStart(parser::lexer::removeComments(line));
     if (line == "")
       break;
     else if (parser::lexer::isSkippableStatement(line))
       break;
-    parser::literal lit = parser::lexer::getLiteral(iindex, lines, variables);
-    skipping = lit.line > 1 ? lit.line - 1 : skipping;
+    parser::literal lit = parser::lexer::getLiteral(it, lines, variables);
     wf.works.push_back(utils::string::trim(lit.value));
   }
   workflows->push_back(wf);
-  return iindex - index;
+  return true;
 }

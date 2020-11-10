@@ -80,31 +80,27 @@ std::string parser::lexer::getVariableNameFromStatement(std::string statement) {
                                   : statement.substr(1);
 }
 
-parser::literal parser::lexer::getLiteral(int index,
-                                          std::vector<std::string>* lines,
-                                          std::vector<variable>* variables) {
+parser::literal parser::lexer::getLiteral(
+    std::vector<std::string>::iterator* it, std::vector<std::string>* lines,
+    std::vector<variable>* variables) {
   literal lit;
   lit.line = 0;
-  int iindex = -1;
-  for (std::string line : *lines) {
-    ++iindex;
-    if (iindex < index)
-      continue;
-    line = utils::string::trimStart(parser::lexer::removeComments(line));
-    if (line == "" ||
-        (iindex != index && line.substr(0, 1) == parser::tokens::VBAR))
+  if ((**it).substr(0, 1) == parser::tokens::VBAR)
+    return lit;
+  if ((**it).substr(0, 1) != parser::tokens::VBAR) {
+    std::cout << "Literal origin not defined!" << std::endl;
+    exit(1);
+  }
+  lit.value += processor::processValue(variables, (**it).substr(1));
+  ++*it;
+  for (; *it < lines->end(); ++*it) {
+    std::string line =
+        utils::string::trimStart(parser::lexer::removeComments(**it));
+    if (line == "")
       break;
     else if (parser::lexer::isSkippableStatement(line))
       break;
     ++lit.line;
-    if (iindex == index) {
-      if (line.substr(0, 1) != parser::tokens::VBAR) {
-        std::cout << "Literal origin not defined!" << std::endl;
-        exit(1);
-      }
-      lit.value += processor::processValue(variables, line.substr(1));
-      continue;
-    }
     lit.value += processor::processValue(variables, line);
   }
   return lit;

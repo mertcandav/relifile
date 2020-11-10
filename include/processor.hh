@@ -20,9 +20,10 @@ class processor {
   static std::string processSequence(std::string value);
   static std::string processValue(std::vector<variable>* variables,
                                   std::string value);
-  static int processWorkflow(int index, std::vector<std::string>* lines,
-                             std::vector<variable>* variables,
-                             std::vector<workflow>* workflows);
+  static bool processWorkflow(std::vector<std::string>::iterator* it,
+                              std::vector<std::string>* lines,
+                              std::vector<variable>* variables,
+                              std::vector<workflow>* workflows);
 };
 
 #endif  // PROCESSOR_HH
