@@ -1,23 +1,25 @@
 #include "../include/processor.hh"
 
-bool processor::processVariable(std::vector<variable>* variables,
-                                std::string statement) {
-  if (!parser::lexer::isVariableStatement(statement))
+bool processor::processVariable(std::vector<std::string>::iterator* it,
+                                std::vector<std::string>* lines,
+                                std::vector<variable>* variables) {
+  if (!parser::lexer::isVariableStatement(**it))
     return false;
   variable var;
-  std::vector<std::string> parts = parser::lexer::lexVariable(statement);
+  std::vector<std::string> parts =
+      parser::lexer::lexVariable(it, lines, variables);
   var.name = utils::string::trim(parts.front());
   if (!parser::grammar::isValidVariableName(var.name)) {
     std::cout << "Variable name is not valid!" << std::endl;
     exit(1);
   }
-  std::vector<variable>::iterator it = variables->begin();
+  std::vector<variable>::iterator iit = variables->begin();
   for (variable vvar : *variables) {
     if (vvar.name == var.name) {
       var.value =
           utils::string::trim(processor::processValue(variables, parts.back()));
-      variables->erase(it);
-      variables->insert(it, var);
+      variables->erase(iit);
+      variables->insert(iit, var);
       return true;
     }
     ++it;
@@ -88,8 +90,8 @@ bool processor::processWorkflow(std::vector<std::string>::iterator* it,
   ++*it;
   workflow wf;
   for (; *it < lines->end(); ++*it) {
-    std::string line = **it;
-    line = utils::string::trimStart(parser::lexer::removeComments(line));
+    std::string line =
+        utils::string::trimStart(parser::lexer::removeComments(**it));
     if (line == "")
       break;
     else if (parser::lexer::isSkippableStatement(line))

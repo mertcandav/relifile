@@ -62,13 +62,29 @@ std::string parser::lexer::removeComments(std::string statement) {
   return statement;
 }
 
-std::vector<std::string> parser::lexer::lexVariable(std::string statement) {
+std::vector<std::string> parser::lexer::lexVariable(
+    std::vector<std::string>::iterator* it, std::vector<std::string>* lines,
+    std::vector<variable>* variables) {
   std::vector<std::string> parts;
-  std::size_t index = statement.find(parser::tokens::EQUAL);
-  parts.push_back(index != std::string::npos ? statement.substr(1, index - 1)
-                                             : statement.substr(1));
-  parts.push_back(index != std::string::npos ? statement.substr(index + 1)
-                                             : "");
+  std::size_t index = (**it).find(parser::tokens::EQUAL);
+  parts.push_back(index != std::string::npos ? (**it).substr(1, index - 1)
+                                             : (**it).substr(1));
+  if (index != std::string::npos) {
+    parts.push_back((**it).substr(index + 1));
+    **+it;
+    return parts;
+  }
+  ++*it;
+  std::string val = "";
+  for (; *it < lines->end(); ++*it) {
+    std::string line = parser::lexer::removeComments(**it);
+    if (utils::string::trimStart(line) == "")
+      break;
+    else if (parser::lexer::isSkippableStatement(line))
+      break;
+    val += line;
+  }
+  parts.push_back(val);
   return parts;
 }
 

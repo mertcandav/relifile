@@ -15,8 +15,9 @@
 
 class processor {
   public:
-  static bool processVariable(std::vector<variable>* variables,
-                              std::string statement);
+  static bool processVariable(std::vector<std::string>::iterator* it,
+                              std::vector<std::string>* lines,
+                              std::vector<variable>* variables);
   static std::string processSequence(std::string value);
   static std::string processValue(std::vector<variable>* variables,
                                   std::string value);

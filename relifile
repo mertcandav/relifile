@@ -28,5 +28,17 @@ $DIR_SOURCE = ./src
 $DIR_PARSER = $DIR_SOURCE/parser
 $DIR_UTILS = $DIR_SOURCE/utils
 
+$GENERIC
+processor.o
+
+$PARSER
+grammar.o 
+lexer.o 
+tokens.o
+
+$UTILS
+io.o 
+string.o
+
 workflow
 | test
