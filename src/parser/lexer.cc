@@ -121,3 +121,24 @@ parser::literal parser::lexer::getLiteral(
   }
   return lit;
 }
+
+std::string parser::lexer::lexBraceRange(char open, char close,
+                                         std::string statement) {
+  int count = 0;
+  for (char ch : statement) {
+    if (ch == open)
+      ++count;
+    else if (ch == close)
+      --count;
+  }
+  if (count > 0) {
+    std::cout << "Bracket is opened but not closed!" << std::endl;
+    exit(1);
+  } else if (count < 0) {
+    std::cout << "Bracket is not opened but closed!" << std::endl;
+    exit(1);
+  }
+  if (statement[0] == open)
+    return statement.substr(1, statement.length() - 2);
+  return statement;
+}

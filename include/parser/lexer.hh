@@ -27,6 +27,8 @@ class lexer {
   static parser::literal getLiteral(std::vector<std::string>::iterator* it,
                                     std::vector<std::string>* lines,
                                     std::vector<variable>* variables);
+  static std::string lexBraceRange(char open, char close,
+                                   std::string statement);
 };
 }  // namespace parser
 
