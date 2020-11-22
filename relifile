@@ -39,6 +39,3 @@ tokens.o
 $UTILS
 io.o 
 string.o
-
-workflow
-| test

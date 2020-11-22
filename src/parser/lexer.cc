@@ -11,8 +11,12 @@ bool parser::lexer::isVariableStatement(std::string statement) {
 }
 
 bool parser::lexer::isWorkflowStatement(std::string statement) {
-  return statement.substr(0, parser::tokens::workflowDefine.length()) ==
-         parser::tokens::workflowDefine;
+  return statement == parser::tokens::workflowDefine;
+}
+
+bool parser::lexer::isWorkStatement(std::string statement) {
+  return statement.substr(0, parser::tokens::workDefine.length() + 1) ==
+         parser::tokens::workDefine + " ";
 }
 
 std::size_t parser::lexer::findVariableLimit(std::string statement) {
@@ -101,8 +105,6 @@ parser::literal parser::lexer::getLiteral(
     std::vector<variable>* variables) {
   literal lit;
   lit.line = 0;
-  if ((**it).substr(0, 1) == parser::tokens::VBAR)
-    return lit;
   if ((**it).substr(0, 1) != parser::tokens::VBAR) {
     std::cout << "Literal origin not defined!" << std::endl;
     exit(1);
@@ -112,10 +114,13 @@ parser::literal parser::lexer::getLiteral(
   for (; *it < lines->end(); ++*it) {
     std::string line =
         utils::string::trimStart(parser::lexer::removeComments(**it));
-    if (line == "")
+    if (line == "") {
+      --*it;
       break;
-    else if (parser::lexer::isSkippableStatement(line))
+    } else if (parser::lexer::isSkippableStatement(line)) {
+      --*it;
       break;
+    }
     ++lit.line;
     lit.value += processor::processValue(variables, line);
   }
@@ -141,4 +146,23 @@ std::string parser::lexer::lexBraceRange(char open, char close,
   if (statement[0] == open)
     return statement.substr(1, statement.length() - 2);
   return statement;
+}
+
+std::vector<std::string>::iterator parser::lexer::findWork(
+    std::string name, std::vector<std::string>::iterator it,
+    std::vector<std::string>* lines) {
+  for (; it < lines->end(); ++it) {
+    std::string line = utils::string::trim(*it);
+    if (!lexer::isWorkStatement(line))
+      continue;
+    if (parser::lexer::getWorkName(line) == name)
+      return it;
+  }
+  std::cout << "Work is cannot define!" << std::endl;
+  exit(1);
+}
+
+std::string parser::lexer::getWorkName(std::string statement) {
+  return utils::string::trim(utils::string::trim(statement).substr(
+      parser::tokens::workDefine.length()));
 }

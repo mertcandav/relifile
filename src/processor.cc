@@ -81,8 +81,9 @@ std::string processor::processValue(std::vector<variable>* variables,
 
 bool processor::processWorkflow(std::vector<std::string>::iterator* it,
                                 std::vector<std::string>* lines,
-                                std::vector<variable>* variables,
-                                std::vector<workflow>* workflows) {
+                                std::vector<variable>* variables) {
+  if (!parser::lexer::isWorkflowStatement(**it))
+    return false;
   if (utils::string::trim(**it) != parser::tokens::workflowDefine) {
     std::cout << "Workflow define line is must are alone!" << std::endl;
     exit(1);
@@ -99,6 +100,45 @@ bool processor::processWorkflow(std::vector<std::string>::iterator* it,
     parser::literal lit = parser::lexer::getLiteral(it, lines, variables);
     wf.works.push_back(utils::string::trim(lit.value));
   }
-  workflows->push_back(wf);
+  for (std::string work : wf.works)
+    processor::processWork(work, it, lines, variables);
   return true;
+}
+
+bool processor::processWork(std::string name,
+                            std::vector<std::string>::iterator* it,
+                            std::vector<std::string>* lines,
+                            std::vector<variable>* variables) {
+  std::vector<std::string>::iterator wrkit =
+      parser::lexer::findWork(name, *it, lines);
+  work wrk = processor::skipWork(&wrkit, lines, variables);
+  for (std::string lit : wrk.literals) system(lit.c_str());
+  return true;
+}
+
+work processor::skipWork(std::vector<std::string>::iterator* it,
+                         std::vector<std::string>* lines,
+                         std::vector<variable>* variables) {
+  if (!parser::lexer::isWorkStatement(utils::string::trim(**it))) {
+    std::cout << "This statement is not work statement!" << std::endl;
+    exit(1);
+  }
+  work wrk;
+  wrk.name = parser::lexer::getWorkName(**it);
+  if (!parser::grammar::isValidVariableName(wrk.name)) {
+    std::cout << "Work name is not valid!" << std::endl;
+    exit(1);
+  }
+  ++*it;
+  for (; *it < lines->end(); ++*it) {
+    std::string line =
+        utils::string::trimStart(parser::lexer::removeComments(**it));
+    if (line == "")
+      break;
+    else if (parser::lexer::isSkippableStatement(line))
+      break;
+    wrk.literals.push_back(utils::string::trim(
+        parser::lexer::getLiteral(it, lines, variables).value));
+  }
+  return wrk;
 }

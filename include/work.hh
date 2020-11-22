@@ -8,11 +8,11 @@
  * @typedef @struct work
  * @brief Work declarer
  * @field name Name of work
- * @field commands Commands of work
+ * @field literals Commands of work
  */
 typedef struct work {
   std::string name;
-  std::list<std::string> commands;
+  std::list<std::string> literals;
 } work;
 
 #endif  // WORK_HH

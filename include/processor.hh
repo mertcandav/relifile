@@ -11,6 +11,7 @@
 #include "parser/literal.hh"
 #include "utils/string.hh"
 #include "variable.hh"
+#include "work.hh"
 #include "workflow.hh"
 
 class processor {
@@ -23,8 +24,14 @@ class processor {
                                   std::string value);
   static bool processWorkflow(std::vector<std::string>::iterator* it,
                               std::vector<std::string>* lines,
-                              std::vector<variable>* variables,
-                              std::vector<workflow>* workflows);
+                              std::vector<variable>* variables);
+  static bool processWork(std::string name,
+                          std::vector<std::string>::iterator* it,
+                          std::vector<std::string>* lines,
+                          std::vector<variable>* variables);
+  static work skipWork(std::vector<std::string>::iterator* it,
+                       std::vector<std::string>* lines,
+                       std::vector<variable>* variables);
 };
 
 #endif  // PROCESSOR_HH

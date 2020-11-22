@@ -18,6 +18,7 @@ class lexer {
   static bool isSkippableStatement(std::string statement);
   static bool isVariableStatement(std::string statement);
   static bool isWorkflowStatement(std::string statement);
+  static bool isWorkStatement(std::string statement);
   static std::size_t findVariableLimit(std::string statement);
   static std::string removeComments(std::string statement);
   static std::vector<std::string> lexVariable(
@@ -29,6 +30,10 @@ class lexer {
                                     std::vector<variable>* variables);
   static std::string lexBraceRange(char open, char close,
                                    std::string statement);
+  static std::vector<std::string>::iterator findWork(
+      std::string name, std::vector<std::string>::iterator it,
+      std::vector<std::string>* lines);
+  static std::string getWorkName(std::string statement);
 };
 }  // namespace parser
 

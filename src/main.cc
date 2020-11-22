@@ -52,17 +52,17 @@ int main(int argc, char const* argv[]) {
  */
 void process(std::vector<std::string> lines) {
   std::vector<variable> variables;
-  std::vector<workflow> workflows;
   for (std::vector<std::string>::iterator it = lines.begin(); it < lines.end();
        ++it) {
     std::string line = parser::lexer::removeComments(*it);
-    if (parser::lexer::isSkippableStatement(utils::string::trimStart(line)))
+    if (parser::lexer::isSkippableStatement(utils::string::trimStart(line)) ||
+        processor::processVariable(&it, &lines, &variables) ||
+        processor::processWorkflow(&it, &lines, &variables))
       continue;
-    else if (processor::processVariable(&it, &lines, &variables))
+    else if (parser::lexer::isWorkStatement(line)) {
+      processor::skipWork(&it, &lines, &variables);
       continue;
-    else if (processor::processWorkflow(&it, &lines, &variables, &workflows))
-      continue;
-    else {
+    } else {
       std::cout << "What is this?" << std::endl
                 << "Statement:" << line << std::endl;
       exit(1);
