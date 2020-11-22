@@ -19,6 +19,7 @@ class lexer {
   static bool isVariableStatement(std::string statement);
   static bool isWorkflowStatement(std::string statement);
   static bool isWorkStatement(std::string statement);
+  static bool isLiteralStatement(std::string statement);
   static std::size_t findVariableLimit(std::string statement);
   static std::string removeComments(std::string statement);
   static std::vector<std::string> lexVariable(

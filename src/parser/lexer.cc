@@ -19,6 +19,10 @@ bool parser::lexer::isWorkStatement(std::string statement) {
          parser::tokens::workDefine + " ";
 }
 
+bool parser::lexer::isLiteralStatement(std::string statement) {
+  return statement.substr(0, 1) == parser::tokens::VBAR;
+}
+
 std::size_t parser::lexer::findVariableLimit(std::string statement) {
   std::size_t res = statement.find(" ");
   res = res == std::string::npos
@@ -105,7 +109,7 @@ parser::literal parser::lexer::getLiteral(
     std::vector<variable>* variables) {
   literal lit;
   lit.line = 0;
-  if ((**it).substr(0, 1) != parser::tokens::VBAR) {
+  if (!parser::lexer::isLiteralStatement(**it)) {
     std::cout << "Literal origin not defined!" << std::endl;
     exit(1);
   }
@@ -118,6 +122,9 @@ parser::literal parser::lexer::getLiteral(
       --*it;
       break;
     } else if (parser::lexer::isSkippableStatement(line)) {
+      --*it;
+      break;
+    } else if (parser::lexer::isLiteralStatement(line)) {
       --*it;
       break;
     }

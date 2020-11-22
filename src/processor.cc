@@ -61,14 +61,17 @@ std::string processor::processValue(std::vector<variable>* variables,
     }
     sequence = parser::lexer::getVariableNameFromStatement(value.substr(index));
     if (sequence != parser::lexer::failProcess) {
+      sequence = utils::string::trim(sequence);
       index += sequence.length();
-      for (variable var : *variables)
+      for (variable var : *variables) {
         if (var.name == sequence) {
           val += var.value;
           sequence = parser::lexer::failProcess;
           break;
         }
+      }
       if (sequence != parser::lexer::failProcess) {
+        std::cout << sequence << std::endl;
         std::cout << "Variable is cannot define!" << std::endl;
         exit(1);
       }

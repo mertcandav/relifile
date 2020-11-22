@@ -39,3 +39,41 @@ tokens.o
 $UTILS
 io.o 
 string.o
+
+# WORKFLOW
+workflow
+| processor.o
+| grammar.o
+| lexer.o
+| tokens.o
+| io.o
+| string.o
+| compile
+
+work processor.o
+| $GPPH $DIR_SOURCE
+  /processor.cc $OUT processor.o
+
+work grammar.o
+| $GPPH $DIR_PARSER
+  /grammar.cc $OUT grammar.o
+
+work lexer.o
+| $GPPH $DIR_PARSER
+  /lexer.cc $OUT lexer.o
+
+work tokens.o
+| $GPPH $DIR_PARSER
+  /tokens.cc $OUT tokens.o
+
+work io.o
+| $GPPH $DIR_UTILS
+  /io.cc $OUT io.o
+
+work string.o
+| $GPPH $DIR_UTILS
+  /string.cc $OUT string.o
+
+work compile
+| $GPP $DIR_SOURCE
+  /main.cc $GENERIC $PARSER $UTILS $OUT reli
