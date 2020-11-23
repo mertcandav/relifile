@@ -9,7 +9,7 @@
  * @field works Works of workflow
  */
 typedef struct workflow {
-  std::list<std::string> works;
+  std::vector<std::string> works;
 } workflow;
 
 #endif  // WORKFLOW_HH

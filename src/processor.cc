@@ -14,7 +14,9 @@ bool processor::processVariable(std::vector<std::string>::iterator* it,
     exit(1);
   }
   std::vector<variable>::iterator iit = variables->begin();
-  for (variable vvar : *variables) {
+  for (std::vector<variable>::iterator varit = variables->begin();
+       varit < variables->end(); ++varit) {
+    variable vvar = *varit;
     if (vvar.name == var.name) {
       var.value =
           utils::string::trim(processor::processValue(variables, parts.back()));
@@ -63,7 +65,9 @@ std::string processor::processValue(std::vector<variable>* variables,
     if (sequence != parser::lexer::failProcess) {
       sequence = utils::string::trim(sequence);
       index += sequence.length();
-      for (variable var : *variables) {
+      for (std::vector<variable>::iterator it = variables->begin();
+           it < variables->end(); ++it) {
+        variable var = *it;
         if (var.name == sequence) {
           val += var.value;
           sequence = parser::lexer::failProcess;
@@ -103,8 +107,9 @@ bool processor::processWorkflow(std::vector<std::string>::iterator* it,
     parser::literal lit = parser::lexer::getLiteral(it, lines, variables);
     wf.works.push_back(utils::string::trim(lit.value));
   }
-  for (std::string work : wf.works)
-    processor::processWork(work, it, lines, variables);
+  for (std::vector<std::string>::iterator workit = wf.works.begin();
+       workit < wf.works.end(); ++workit)
+    processor::processWork(*workit, it, lines, variables);
   return true;
 }
 
@@ -115,9 +120,11 @@ bool processor::processWork(std::string name,
   std::vector<std::string>::iterator wrkit =
       parser::lexer::findWork(name, *it, lines);
   work wrk = processor::skipWork(&wrkit, lines, variables);
-  for (std::string lit : wrk.literals) {
+  for (std::vector<std::string>::iterator i = wrk.literals.begin();
+       i < wrk.literals.end(); ++i) {
+    std::string lit = *i;
     std::cout << lit << std::endl;
-    system(lit.c_str());
+    system((lit).c_str());
   }
   return true;
 }

@@ -12,7 +12,7 @@
  */
 typedef struct work {
   std::string name;
-  std::list<std::string> literals;
+  std::vector<std::string> literals;
 } work;
 
 #endif  // WORK_HH
