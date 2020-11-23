@@ -1,4 +1,4 @@
-#ifndef STRINH_HH
+#ifndef STRING_HH
 #define STRING_HH
 
 #include <iostream>

@@ -115,7 +115,10 @@ bool processor::processWork(std::string name,
   std::vector<std::string>::iterator wrkit =
       parser::lexer::findWork(name, *it, lines);
   work wrk = processor::skipWork(&wrkit, lines, variables);
-  for (std::string lit : wrk.literals) system(lit.c_str());
+  for (std::string lit : wrk.literals) {
+    std::cout << lit << std::endl;
+    system(lit.c_str());
+  }
   return true;
 }
 
