@@ -137,7 +137,9 @@ parser::literal parser::lexer::getLiteral(
 std::string parser::lexer::lexBraceRange(char open, char close,
                                          std::string statement) {
   int count = 0;
-  for (char ch : statement) {
+  for (std::__cxx11::basic_string<char>::iterator chit = statement.begin();
+       chit < statement.end(); ++chit) {
+    char ch = *chit;
     if (ch == open)
       ++count;
     else if (ch == close)
