@@ -80,6 +80,13 @@ std::string processor::processValue(std::vector<variable>* variables,
         exit(1);
       }
       continue;
+    } else if (value[index] == parser::tokens::LPAR[0]) {
+      std::string statement = parser::lexer::lexBraceRange(
+          parser::tokens::LPAR[0], parser::tokens::RPAR[0],
+          value.substr(index));
+      val += processor::processValue(variables, statement);
+      index += statement.length() + 1;
+      continue;
     }
     val += value[index];
   }

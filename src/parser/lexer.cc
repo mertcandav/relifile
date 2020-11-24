@@ -138,11 +138,19 @@ std::string parser::lexer::lexBraceRange(char open, char close,
                                          std::string statement) {
   int count = 0;
   for (int index = 0; index < statement.length(); ++index) {
+    if (processor::processSequence(statement.substr(index)) !=
+        parser::lexer::failProcess) {
+      ++index;
+      continue;
+    }
     char ch = statement[index];
     if (ch == open)
       ++count;
     else if (ch == close)
       --count;
+
+    if (count == 0 && statement[0] == open)
+      return statement.substr(1, --index);
   }
   if (count > 0) {
     std::cout << "Bracket is opened but not closed!" << std::endl;
@@ -151,8 +159,6 @@ std::string parser::lexer::lexBraceRange(char open, char close,
     std::cout << "Bracket is not opened but closed!" << std::endl;
     exit(1);
   }
-  if (statement[0] == open)
-    return statement.substr(1, statement.length() - 2);
   return statement;
 }
 
