@@ -115,8 +115,12 @@ bool processor::processWorkflow(std::vector<std::string>::iterator* it,
     wf.works.push_back(utils::string::trim(lit.value));
   }
   for (std::vector<std::string>::iterator workit = wf.works.begin();
-       workit < wf.works.end(); ++workit)
-    processor::processWork(*workit, it, lines, variables);
+       workit < wf.works.end(); ++workit) {
+    std::vector<std::string> parts = utils::string::split(*workit, ' ');
+    for (std::vector<std::string>::iterator partit = parts.begin();
+         partit < parts.end(); ++partit)
+      processor::processWork(*partit, it, lines, variables);
+  }
   return true;
 }
 

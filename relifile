@@ -42,13 +42,9 @@ string.o
 
 # WORKFLOW
 workflow
-| processor.o
-| grammar.o
-| lexer.o
-| tokens.o
-| io.o
-| string.o
-| compile
+| $GENERIC
+| $PARSER
+| $UTILS
 
 work processor.o
 | $GPPH ($DIR_SOURCE())/processor.cc $OUT processor.o
