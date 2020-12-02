@@ -118,8 +118,11 @@ bool processor::processWorkflow(std::vector<std::string>::iterator* it,
        workit < wf.works.end(); ++workit) {
     std::vector<std::string> parts = utils::string::split(*workit, ' ');
     for (std::vector<std::string>::iterator partit = parts.begin();
-         partit < parts.end(); ++partit)
+         partit < parts.end(); ++partit) {
+      if (*partit == "")
+        continue;
       processor::processWork(*partit, it, lines, variables);
+    }
   }
   return true;
 }
