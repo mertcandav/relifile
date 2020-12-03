@@ -151,11 +151,19 @@ work processor::skipWork(std::vector<std::string>::iterator* it,
     exit(1);
   }
   work wrk;
-  wrk.name = parser::lexer::getWorkName(**it);
+  wrk.name = parser::lexer::getWorkName(**it, false);
+  size_t pos;
+  if ((pos = wrk.name.find(' ')) != std::string::npos) {
+    wrk.parameters = parser::lexer::lexParameters(wrk.name.substr(pos));
+    wrk.name = wrk.name.substr(0, pos);
+  }
   if (!parser::grammar::isValidVariableName(wrk.name)) {
     std::cout << "Work name is not valid!" << std::endl;
     exit(1);
   }
+  for (std::vector<std::string>::iterator pit = wrk.parameters.begin();
+       pit < wrk.parameters.end(); ++pit)
+    *pit = processor::processValue(variables, *pit);
   ++*it;
   for (; *it < lines->end(); ++*it) {
     std::string line =

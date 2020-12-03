@@ -34,7 +34,8 @@ class lexer {
   static std::vector<std::string>::iterator findWork(
       std::string name, std::vector<std::string>::iterator it,
       std::vector<std::string>* lines);
-  static std::string getWorkName(std::string statement);
+  static std::string getWorkName(std::string statement, bool removeParameters);
+  static std::vector<std::string> lexParameters(std::string statement);
 };
 }  // namespace parser
 

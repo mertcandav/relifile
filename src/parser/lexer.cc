@@ -169,14 +169,56 @@ std::vector<std::string>::iterator parser::lexer::findWork(
     std::string line = utils::string::trim(*it);
     if (!lexer::isWorkStatement(line))
       continue;
-    if (parser::lexer::getWorkName(line) == name)
+    if (parser::lexer::getWorkName(line, true) == name)
       return it;
   }
   std::cout << "Work is cannot define!" << std::endl;
   exit(1);
 }
 
-std::string parser::lexer::getWorkName(std::string statement) {
-  return utils::string::trim(utils::string::trim(statement).substr(
+std::string parser::lexer::getWorkName(std::string statement,
+                                       bool removeParameters) {
+  std::string value = utils::string::trim(utils::string::trim(statement).substr(
       parser::tokens::workDefine.length()));
+  if (removeParameters) {
+    size_t pos = value.find(' ');
+    value = pos != std::string::npos ? value.substr(0, pos) : value;
+  }
+  return value;
+}
+
+std::vector<std::string> parser::lexer::lexParameters(std::string statement) {
+  std::vector<std::string> parameters;
+  int last = 0, index = 0;
+  for (; index < statement.length(); ++index) {
+    if (statement[index] == parser::tokens::LPAR[0])
+      index += parser::lexer::lexBraceRange(parser::tokens::LPAR[0],
+                                            parser::tokens::RPAR[0],
+                                            statement.substr(index))
+                   .length() +
+               1;
+    if (statement[index] != parser::tokens::COMMA[0])
+      continue;
+    if (index > 0) {
+      if (statement[index - 1] == parser::tokens::COMMA[0]) {
+        std::cout << "Cannot define empty parameter!" << std::endl;
+        exit(1);
+      }
+      if (index > 1 &&
+          (statement[index - 1] == parser::tokens::ESCAPESEQUENCE[0] &&
+           statement[index - 2] != parser::tokens::ESCAPESEQUENCE[0])) {
+        statement[index - 1] = '\0';
+        continue;
+      }
+    }
+    std::string value =
+        utils::string::trim(statement.substr(last, index - last));
+    if (value == "")
+      continue;
+    parameters.push_back(value);
+    last = index + 1;
+  }
+  if (last != statement.length())
+    parameters.push_back(utils::string::trim(statement.substr(last)));
+  return parameters;
 }
