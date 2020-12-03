@@ -20,8 +20,7 @@ bool processor::processVariable(std::vector<std::string>::iterator* it,
     if (vvar.name == var.name) {
       var.value =
           utils::string::trim(processor::processValue(variables, parts.back()));
-      variables->erase(iit);
-      variables->insert(iit, var);
+      *iit = var;
       return true;
     }
     ++it;
