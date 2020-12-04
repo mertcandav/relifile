@@ -46,8 +46,8 @@ workflow
 | $PARSER
 | $UTILS
 
-work processor.o
-| $GPPH ($DIR_SOURCE)/processor.cc $OUT processor.o
+work processor.o ($DIR_SOURCE)/processor.cc
+| $GPPH $0 $OUT processor.o
 
 work grammar.o
 | $GPPH ($DIR_PARSER)/grammar.cc $OUT grammar.o

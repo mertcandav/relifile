@@ -160,9 +160,15 @@ work processor::skipWork(std::vector<std::string>::iterator* it,
     std::cout << "Work name is not valid!" << std::endl;
     exit(1);
   }
+  int counter = 0;
   for (std::vector<std::string>::iterator pit = wrk.parameters.begin();
-       pit < wrk.parameters.end(); ++pit)
+       pit < wrk.parameters.end(); ++pit) {
     *pit = processor::processValue(variables, *pit);
+    variable var;
+    var.name = std::to_string(counter++);
+    var.value = *pit;
+    variables->push_back(var);
+  }
   ++*it;
   for (; *it < lines->end(); ++*it) {
     std::string line =
@@ -174,5 +180,6 @@ work processor::skipWork(std::vector<std::string>::iterator* it,
     wrk.literals.push_back(utils::string::trim(
         parser::lexer::getLiteral(it, lines, variables).value));
   }
+  for (int ccounter = 0; ccounter < counter; ++ccounter) variables->pop_back();
   return wrk;
 }
