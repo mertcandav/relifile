@@ -49,20 +49,20 @@ workflow
 work processor.o ($DIR_SOURCE)/processor.cc
 | $GPPH $0 $OUT processor.o
 
-work grammar.o
-| $GPPH ($DIR_PARSER)/grammar.cc $OUT grammar.o
+work grammar.o ($DIR_PARSER)/grammar.cc
+| $GPPH $0 $OUT grammar.o
 
-work lexer.o
-| $GPPH ($DIR_PARSER)/lexer.cc $OUT lexer.o
+work lexer.o ($DIR_PARSER)/lexer.cc
+| $GPPH $0 $OUT lexer.o
 
-work tokens.o
-| $GPPH ($DIR_PARSER)/tokens.cc $OUT tokens.o
+work tokens.o ($DIR_PARSER)/tokens.cc
+| $GPPH $0 $OUT tokens.o
 
-work io.o
-| $GPPH ($DIR_UTILS)/io.cc $OUT io.o
+work io.o ($DIR_UTILS)/io.cc
+| $GPPH $0 $OUT io.o
 
-work string.o
-| $GPPH ($DIR_UTILS)/string.cc $OUT string.o
+work string.o ($DIR_UTILS)/string.cc
+| $GPPH $0 $OUT string.o
 
-work compile
-| $GPP ($DIR_SOURCE)/main.cc $GENERIC $PARSER $UTILS $OUT reli
+work compile ($DIR_SOURCE)/main.cc
+| $GPP $0 $GENERIC $PARSER $UTILS $OUT reli
