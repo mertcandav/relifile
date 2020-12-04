@@ -14,3 +14,24 @@
 #### [CODE OF CONDUCT](https://github.com/mertcandav/relifile/blob/main/CODE_OF_CONDUCT.md)
 
 </div>
+
+### Quick Start
+
+```
+# Quick Start
+
+$GPP = g++
+$OUT = -o
+$DIR_SOURCE = ./src
+
+workflow
+| headerExample
+| compile
+
+work headerExample ($DIR_SOURCE)/header.cc
+| $GPP $0 $OUT header.o
+
+work compile $(DIR_SOURCE)/main.cc, appName
+| $GPP -c $0 header.o $OUT $1
+
+```
