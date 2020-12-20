@@ -11,6 +11,6 @@ N/A
   * - Must
 --->
 ### Checks
-- [ ] I accept that the contributions be published under this [license](https://github.com/mertcandav/bvesh/blob/master/LICENSE)
+- [ ] I accept that the contributions be published under this [license](https://github.com/mertcandav/relifile/blob/master/LICENSE)
 - [ ] Tested code
 - [ ] Added documentations for code - [see](https://www.headerbrowser.org/doc/c_tags.html)
